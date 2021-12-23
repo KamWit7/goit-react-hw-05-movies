@@ -1,0 +1,19 @@
+.Navigation {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  align-items: flex-start;
+
+  border-bottom: solid 1px black;
+}
+
+.Link {
+  margin-left: 20px;
+  text-decoration: none;
+  font-size: 30px;
+  color: black;
+}
+
+.Active_page {
+  color: red ;
+}
