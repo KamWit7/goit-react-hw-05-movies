@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom"
 
-const MovesLink = ({ moves }) => {
+const MovesLink = ({ movies = [] }) => {
   return (
     <ul>
-      {moves.map((move) => (
+      {movies.map((move) => (
         <li key={move.id}>
           <Link to={`/movies/${move.id}`}>
             {move.original_title ?? move.original_name}

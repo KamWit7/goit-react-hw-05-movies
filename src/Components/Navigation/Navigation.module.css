@@ -2,18 +2,21 @@
   display: flex;
   align-items: center;
   width: 100vw;
-  align-items: flex-start;
 
-  border-bottom: solid 1px black;
+  align-items: flex-start;
+  background-color: #ff8989;
+
+  box-shadow: 0 4px 2px #ff8989;
 }
 
 .Link {
   margin-left: 20px;
-  text-decoration: none;
-  font-size: 30px;
-  color: black;
-}
+  margin-right: 30px;
 
-.Active_page {
-  color: red ;
+  text-decoration: none;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 10px;
+
+  color: #f5f5f5a6;
 }

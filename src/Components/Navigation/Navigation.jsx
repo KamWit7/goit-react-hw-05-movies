@@ -1,13 +1,12 @@
 import React from "react"
-import { Link, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import styles from "./Navigation.module.css"
 
 const Navigation = () => {
-
   let activeStyle = {
-    color: "blue",
+    color: "#E50914",
   }
-
+  //  color: #999nav
   return (
     <nav className={styles.Navigation}>
       <NavLink

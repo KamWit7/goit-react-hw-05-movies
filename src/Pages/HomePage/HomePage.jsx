@@ -17,7 +17,7 @@ const HomePage = () => {
 
   return (
     <main>
-      <MovesLink moves={trending} />
+      <MovesLink movies={trending} />
     </main>
   )
 }
