@@ -4,6 +4,7 @@ import HomePage from "./Pages/HomePage/HomePage"
 import Navigation from "./Components/Navigation/Navigation"
 import Reviews from "./Components/Reviews/Reviews"
 import Loading from "./Components/Loading/Loading"
+import NotFound from "./Components/NotFound/NotFound"
 
 const API_KEY = "62e18f2bbf2294ce6ea3f49ffd7e99af"
 
@@ -41,13 +42,7 @@ function App() {
           element={
             <>
               <Navigation />
-              <Suspense
-                fallback={
-                  <>
-                    <Loading />
-                  </>
-                }
-              >
+              <Suspense fallback={<Loading />}>
                 <HomePage />
               </Suspense>
             </>
@@ -87,6 +82,7 @@ function App() {
           />
           <Route path="reviews" element={<Reviews apiKey={API_KEY} />} />
         </Route>
+        <Route path="*" element={<NotFound />}></Route>
       </Routes>
     </BrowserRouter>
   )

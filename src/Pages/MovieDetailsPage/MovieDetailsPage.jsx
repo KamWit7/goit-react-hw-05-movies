@@ -44,16 +44,7 @@ const MovieDetailsPage = ({ apiKey, imgSrc }) => {
     return `${secure_base_url}${poster_sizes[1]}${poster}`
   }
 
-  const {
-    original_title,
-    overview,
-    vote_average,
-    genres,
-    poster_path,
-    // success,
-  } = moves
-  console.log('moves', moves)
-  // console.log("success", success)
+  const { original_title, overview, vote_average, genres, poster_path } = moves
   return (
     <>
       <button className={styles.Button} type="button" onClick={goBack}>

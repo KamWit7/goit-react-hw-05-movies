@@ -20,7 +20,6 @@ const MoviesPage = ({ apiKey }) => {
     fetchMovies(search)
   }, [apiKey, search])
 
-  console.log("movie", movies)
   return (
     <section className={styles.Wrapper}>
       <form
