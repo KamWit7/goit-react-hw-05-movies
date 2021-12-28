@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, Suspense, lazy } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import HomePage from "./Pages/HomePage/HomePage"
-import MoviesPage from "./Pages/MoviesPage/MoviesPage"
-import MovieDetailsPage from "./Pages/MovieDetailsPage/MovieDetailsPage"
 import Navigation from "./Components/Navigation/Navigation"
 import Reviews from "./Components/Reviews/Reviews"
-import Cast from "./Components/Cast/Cast"
+import Loading from "./Components/Loading/Loading"
 
 const API_KEY = "62e18f2bbf2294ce6ea3f49ffd7e99af"
 
 function App() {
+  const MovieDetailsPage = React.lazy(() =>
+    import("./Pages/MovieDetailsPage/MovieDetailsPage")
+  )
+  const MoviesPage = lazy(() => import("./Pages/MoviesPage/MoviesPage"))
+  const Cast = lazy(() => import("./Components/Cast/Cast"))
+
   const [imgSrc, setImgSrc] = useState({
     secure_base_url: "",
     poster_sizes: [],
@@ -22,14 +26,7 @@ function App() {
         .then((resp) => resp.json())
         .then((resp) => resp.images)
         .then(({ secure_base_url, poster_sizes, profile_sizes }) => {
-          setImgSrc((prevConfig) => {
-            return {
-              ...prevConfig,
-              secure_base_url,
-              poster_sizes,
-              profile_sizes,
-            }
-          })
+          setImgSrc({ secure_base_url, poster_sizes, profile_sizes })
         })
         .catch((er) => console.log("MoveDetailsPage fetch fail! -> " + er))
     }
@@ -44,7 +41,15 @@ function App() {
           element={
             <>
               <Navigation />
-              <HomePage />
+              <Suspense
+                fallback={
+                  <>
+                    <Loading />
+                  </>
+                }
+              >
+                <HomePage />
+              </Suspense>
             </>
           }
         />
@@ -54,7 +59,9 @@ function App() {
           element={
             <>
               <Navigation />
-              <MoviesPage apiKey={API_KEY} />
+              <Suspense fallback={<Loading />}>
+                <MoviesPage apiKey={API_KEY} />
+              </Suspense>
             </>
           }
         ></Route>
@@ -64,13 +71,19 @@ function App() {
           element={
             <>
               <Navigation />
-              <MovieDetailsPage apiKey={API_KEY} imgSrc={imgSrc} />
+              <Suspense fallback={<Loading />}>
+                <MovieDetailsPage apiKey={API_KEY} imgSrc={imgSrc} />
+              </Suspense>
             </>
           }
         >
           <Route
             path="cast"
-            element={<Cast apiKey={API_KEY} imgSrc={imgSrc} />}
+            element={
+              <Suspense fallback={<Loading />}>
+                <Cast apiKey={API_KEY} imgSrc={imgSrc} />
+              </Suspense>
+            }
           />
           <Route path="reviews" element={<Reviews apiKey={API_KEY} />} />
         </Route>

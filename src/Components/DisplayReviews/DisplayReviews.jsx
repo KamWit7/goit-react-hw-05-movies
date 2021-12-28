@@ -1,4 +1,5 @@
 import React from "react"
+import styles from "./DisplayReviews.module.css"
 
 const DisplayReviews = ({ reviews }) => {
   if (reviews.length === 0)
@@ -8,8 +9,8 @@ const DisplayReviews = ({ reviews }) => {
     <ul>
       {reviews.map(({ author, content, id }) => (
         <li key={id}>
-          <h2>{author}</h2>
-          <p>{content}</p>
+          <h2 className={styles.Author}>{author}</h2>
+          <p className={styles.Content}>{content}</p>
         </li>
       ))}
     </ul>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import MovesLink from "../../Components/MovesLink/MovesLink"
 import styles from "./MoviesPage.module.css"
-// https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
 
 const MoviesPage = ({ apiKey }) => {
   const [movies, setMovies] = useState([])
