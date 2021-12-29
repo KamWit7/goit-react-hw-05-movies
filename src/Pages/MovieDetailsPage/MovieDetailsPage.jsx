@@ -1,50 +1,45 @@
-import React, { useEffect, useState } from "react"
-import {
-  Link,
-  Outlet,
-  useParams,
-  useNavigate,
-  useLocation,
-} from "react-router-dom"
+import React, { useEffect, useState, useDebugValue, useRef } from "react"
+import { Link, Outlet, useParams, useNavigate } from "react-router-dom"
 import styles from "./MovieDetailsPage.module.css"
 
 const MovieDetailsPage = ({ apiKey, imgSrc }) => {
-  const [moves, setMoves] = useState([])
   let navigate = useNavigate()
-  let { id } = useParams()
-  let location = useLocation()
+  let pagesToGoBack = useRef(1)
 
-  useEffect(() => {
-    /* isMounted solve problem with memory leak
+  const useMoves = () => {
+    const [moves, setMoves] = useState([])
+    let { id } = useParams()
+
+    useEffect(() => {
+      /* isMounted solve problem with memory leak
        Warning: Can't perform a React state update on an unmounted component.
-    */
-    let isMounted = true
+      */
+      let isMounted = true
 
-    const fetchMove = (id) => {
-      fetch(
-        `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
-      )
-        .then((resp) => resp.json())
-        .then((move) => (isMounted ? setMoves(move) : null))
-        .catch((er) => console.log("MoveDetailsPage fetch fail! -> " + er))
-    }
-    fetchMove(id)
+      const fetchMove = (id) => {
+        fetch(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
+        )
+          .then((resp) => resp.json())
+          .then((move) => (isMounted ? setMoves(move) : []))
+          .catch((er) => console.log("MoveDetailsPage fetch fail! -> " + er))
+      }
+      fetchMove(id)
 
-    return () => {
-      isMounted = false
-    }
-  }, [id, apiKey])
+      return () => {
+        isMounted = false
+      }
+    }, [id])
+
+    useDebugValue(moves, "loading...")
+
+    return moves
+  }
 
   // useHistory -> useNavigate in v6
   // nextPage 1
   // prevPage -1
-  const goBack = () => {
-    const { pathname } = location
-    if (pathname.endsWith("cast") || pathname.endsWith("reviews"))
-      return navigate(-3)
-
-    return navigate(-1)
-  }
+  const goBack = () => navigate(-pagesToGoBack.current)
 
   const getImgSrc = (poster = "noImg") => {
     if (poster === "noImg") return ""
@@ -53,7 +48,8 @@ const MovieDetailsPage = ({ apiKey, imgSrc }) => {
     return `${secure_base_url}${poster_sizes[1]}${poster}`
   }
 
-  const { original_title, overview, vote_average, genres, poster_path } = moves
+  const { original_title, overview, vote_average, genres, poster_path } =
+    useMoves()
   return (
     <>
       <button className={styles.Button} type="button" onClick={goBack}>
@@ -74,10 +70,14 @@ const MovieDetailsPage = ({ apiKey, imgSrc }) => {
         <p>Additional information</p>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <Link to="cast" onClick={() => (pagesToGoBack.current += 1)}>
+              Cast
+            </Link>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <Link to="reviews" onClick={() => (pagesToGoBack.current += 1)}>
+              Reviews
+            </Link>
           </li>
         </ul>
         <Outlet />

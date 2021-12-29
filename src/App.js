@@ -6,8 +6,6 @@ import React, {
   useDebugValue,
 } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-// import { ThemeContext } from "./theme-context"
-
 import HomePage from "./Pages/HomePage/HomePage"
 import Navigation from "./Components/Navigation/Navigation"
 import Reviews from "./Components/Reviews/Reviews"
@@ -30,6 +28,8 @@ function App() {
       poster_sizes: [],
       profile_sizes: [],
     })
+
+    // cosnt
 
     useEffect(() => {
       const fetchImgConfiguration = (apiKey) => {
@@ -73,7 +73,7 @@ function App() {
               <>
                 <Navigation />
                 <Suspense fallback={<Loading />}>
-                  <MoviesPage apiKey={API_KEY} /> 
+                  <MoviesPage apiKey={API_KEY} />
                 </Suspense>
               </>
             }
@@ -95,7 +95,7 @@ function App() {
               element={
                 <Suspense fallback={<Loading />}>
                   {/* Context for srcImg  */}
-                  <Cast apiKey={API_KEY} />  
+                  <Cast apiKey={API_KEY} />
                 </Suspense>
               }
             />
