@@ -15,15 +15,24 @@ const MovieDetailsPage = ({ apiKey, imgSrc }) => {
   let location = useLocation()
 
   useEffect(() => {
+    /* isMounted solve problem with memory leak
+       Warning: Can't perform a React state update on an unmounted component.
+    */
+    let isMounted = true
+
     const fetchMove = (id) => {
       fetch(
         `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&language=en-US`
       )
         .then((resp) => resp.json())
-        .then((move) => setMoves(move))
+        .then((move) => (isMounted ? setMoves(move) : null))
         .catch((er) => console.log("MoveDetailsPage fetch fail! -> " + er))
     }
     fetchMove(id)
+
+    return () => {
+      isMounted = false
+    }
   }, [id, apiKey])
 
   // useHistory -> useNavigate in v6

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"
 import DisplayCast from "../DisplayCast/DisplayCast"
 // https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>>&language=en-US
 
-const Cast = ({ apiKey, imgSrc }) => {
+const Cast = ({ apiKey }) => {
   const [cast, setCast] = useState([])
   let { id } = useParams()
 
@@ -19,10 +19,10 @@ const Cast = ({ apiKey, imgSrc }) => {
 
     fetchCast(id)
   }, [id, apiKey])
-  // TO useContent change !!!
+
   return (
     <section>
-      <DisplayCast cast={cast} imgSrc={imgSrc} />
+      <DisplayCast cast={cast} />
     </section>
   )
 }

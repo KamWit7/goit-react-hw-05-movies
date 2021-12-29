@@ -1,6 +1,9 @@
-import React from "react"
+import React, { useContext } from "react"
+import { ImgSrcContext } from "../../Context/ImgSrcContext/ImgSrcContext"
 
-const DisplayCast = ({ cast, imgSrc }) => {
+const DisplayCast = ({ cast }) => {
+  const imgSrc = useContext(ImgSrcContext)
+
   const getImgSrc = (profile = "noImg") => {
     if (profile === "noImg" || profile === null) return ""
     const { secure_base_url, profile_sizes } = imgSrc
